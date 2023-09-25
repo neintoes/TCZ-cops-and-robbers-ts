@@ -7,7 +7,10 @@ class GameManager {
         this.tileMapLevels = tilemapsToLoad
         this.initialisePlayer()
         this.loadLevel(0)
-        this.onUpdates();
+        this.onUpdates()
+        // GH2
+        this.onUpdateIntervals()
+        // end GH2
         new OverlapManager()
     }
 
@@ -28,4 +31,14 @@ class GameManager {
             })
         })
     }
+
+    // GH2
+    private onUpdateIntervals(): void {
+        game.onUpdateInterval(500, function(): void {
+            sprites.allOfKind(SpriteKind.Enemy).forEach(function(guard: Sprite): void {
+                guard.data.alertStatus()
+            })
+        })
+    }
+    // end GH2
 }

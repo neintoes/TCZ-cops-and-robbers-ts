@@ -5,6 +5,7 @@ class Guard extends BaseSprite {
     private searching: boolean = false
     private following: boolean = false
     private targetSprite: Sprite
+    private colour: string = "blue"
 
     constructor() {
         super(assets.image`guard`, SpriteKind.Enemy)
@@ -27,6 +28,25 @@ class Guard extends BaseSprite {
         let path = scene.aStar(pos, this.targetSprite.tilemapLocation())
         scene.followPath(this.sprite, path, this.speed)
     }
+
+    // GH2
+    public alertStatus(): void {
+        if(scene.spriteIsFollowingPath(this.sprite)) {
+            if (this.colour == "blue") {
+                this.sprite.image.replace(8, 2)
+                this.colour = "red"
+            } else {
+                this.sprite.image.replace(2, 8)
+                this.colour = "blue"
+            }
+            this.sprite.say("!")
+        } else {
+            this.sprite.image.replace(2, 8)
+            this.colour = "blue"
+            this.sprite.say("")
+        }
+    }
+    // end GH2
 
     public idleBehaviour(): void {
         if(this.sprite.vx != 0) {
